@@ -1,0 +1,87 @@
+<%- include('../template/head')-%>
+<html>
+<link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+    <body class="text-center">
+    <div class="alert-danger", role="alert", id="error-group", style="display: none"></div>
+       <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <%- include('../template/nav')-%>
+           <div class="row" >
+                <div class="col-6">
+                    <div class="card1">
+                      
+                        <div class="card-body">
+                        <h5 id="update"> </h5></br>
+                         <!-- Photos upload Form -->
+                        <form  method="post"  id="form" enctype="multipart/form-data">
+                        <div class="form-group" id="files">
+                            <label for="photos-input">File input</label>
+                           <input name="image" id="image" type="file" class="demoInputBox" multiple="" />
+                            
+                        </div>
+                          </br></br>
+                        <div class="box-footer">
+                               <div class="pull-right paddA10">
+                              
+                                    <input type="submit" class="btn btn-danger btn-block"  id="submit" value="submit" />
+                                </div>
+                           </div>
+                        </form>           
+                <br/>
+                
+                        </div>
+                    </div>    
+                </div>
+            </div>
+        </div> 
+        <% if(result!=''){ %>
+            <div class="container">
+               <div class="row">
+                <% if(result.length>0){ %>
+                <% result.forEach(function(result){ %>
+                <div class="col-md-4">
+                <img src="./uploads/<%- result.image %>" alt="image" style="width: 80%;margin:5px auto"></div>
+           <% }) %>
+        <% } %>
+
+            </div>
+      </div>
+<% }%>
+    </body>
+</html>
+
+<script type="text/javascript" src="
+http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+<script lang="javascript">
+   
+    $(document).ready(function(){
+            
+$("#submit").click((event) => {
+        //stop submit the form, we will post it manually.
+        event.preventDefault();
+        var form = $('#form')[0];
+        var data = new FormData(form);
+ 
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: "/product",
+        data: data,
+        processData: false, //prevent jQuery from automatically transforming the data into a query string
+        contentType: false,
+        cache: false,
+        success: (data) => {
+           $('#update').html('Image uploaded Successfully');
+      
+      //reset form
+      
+        },
+        error: (e) => {
+            $("#confirmMsg").text(e.responseText);
+        }
+    });
+            // Append new row
+           
+ });
+});
+</script>
