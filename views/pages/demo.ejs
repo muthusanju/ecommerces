@@ -1,50 +1,40 @@
 <%- include('../template/head')-%>
+
 <html>
-<link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
 <body class="text-center">
 <div class="alert-danger", role="alert", id="error-group", style="display: none"></div>
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="cover-container d-flex w-100 h-80 p-3 mx-auto flex-column">
         <%- include('../template/nav')-%>
-      </br></br></br>
-      <h5 id="update1" style="color: red;"> </h5></br>
-      <div class="row add-form" >
+    <div class="row add-form" >
           <div class="col-6">
-            <div class="card1">
-              <div class="card-body">
-
+            <div class="card2">
+                 
                   <form id="formadd1" class="mt-2" >
                      <div class="row">
                         <div class="col-sm-6">
                           <div class="form-group">
-
-                            <label for="pwd" class="label">Product Name</label>
-                            <input type="text"  name="search" id="search" class="form-control search">
-                                        
+                              <label for="pwd" class="label">Product Name</label>
+                              <input type="text"  name="search" id="search" class="form-control search">
                           </div>
-                        </div>
-                      </div>      
-                </form>
-
-              </div> 
-            </div>
-          </div>
-        </div></br></br>    
-        
+                       </div>
+                    </div>
+                 </form>
+               
+              </div>
+            </div> </div>
+</br></br></br></br>
 <table class="display responsive nowrap" style="width:100%" id="example" >
    <thead>
       <tr >
-          <th>Image</th>
           <th>Product Name</th>
+          <th>Image</th>
           <th>Amount</th>
           <th></th>
-     </tr>
+      </tr>
     </thead>
     <tbody>
-
     </tbody>
   </table>
-  
-  </div> </br></br>
 
     </body>
 </html>
@@ -66,17 +56,19 @@
       data:JSON.stringify(data),
       contentType:"application/json",
       success: function(res) {
+      
         console.log(res);
         var result;
         result=res.resMsg;
         console.log('re:',result);
           for(var i=0;i<result.length;i++){
-          var markup = "<tr><td><img src="+"/image/"+result[i].image+"></img></td><td>"+result[i].productname+"</td><td>"+result[i].amount+"</td></tr>";
+          var markup = "<tr><td><img src="+"/uploads/"+result[i].image+"></img></td><td>"+result[i].productname+"</td><td>"+result[i].amount+"</td></tr>";
         $("table tbody").append(markup);
         
       }
     
-    }
+    },
+    minilength:3
     });
    return false;
     });
