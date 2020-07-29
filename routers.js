@@ -183,33 +183,35 @@ var result;
   res.render('pages/register',{result:result});
 });
 });
-
-router.get('/demo', function(req, res) {
-   //res.render('pages/demo');
   
+router.get('/demo',function(req,res){
+res.render('pages/demo');
+});
+
+router.post('/demo', function(req, res) {
+   
     console.log('searchh : ',req.body);
 
     var name=req.body.productname;
-    //console.log( "/^" + name+"/");
+   
     Image.find({ 'productname': new RegExp(name, 'i') } ,function(err, items) {
-      //usermodel.find({name}, function(err,result){
+     
     if(err){
 
     }else if(items!=null){
       var passDateJson = {};
          console.log('items:',items);
-
-      
-      console.log("inside");
-     //res.json({'status':'FETCH',message:result});
-
+         console.log("inside");
+    
           passDateJson.resType = 'success';
           passDateJson.resMsg = items;
         }
     res.json(passDateJson);
+ 
     });
        
 });
+
 //post register
 router.post('/register',function(req,res){ 
 
@@ -384,10 +386,8 @@ res.json(passDateJson);
 });
 router.get('/cart', function(req, res, next) {    
         var result;
-  Image.find({},function(err,result){
-     
-res.render('pages/productdetails',{result:result});
-});
+        res.render('pages/cart');
+ 
 });
 router.get('/productdetails',function(req,res){
   var result;
