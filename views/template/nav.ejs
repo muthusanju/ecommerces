@@ -1,0 +1,26 @@
+
+<!-- Navigation Partial Template -->
+<header class="masthead mb-auto">
+<div class="inner">
+       <div class="col-md-5 align-self-center">
+        <h1 class="text-themecolor">E-commerce</h1>
+    </div>
+    <div class="inner">
+       
+        <nav class="nav nav-masthead justify-content-center">
+        
+        <% if(typeof locals.session == 'undefined' || typeof locals.session.userid == 'undefined'){ %>
+            <a id='home' class="nav-link" href="/">Home</a>
+            <a id='links' class="nav-link" href="/register">Register</a>
+            <a id='list' class="nav-link" href="/login">Login</a>
+        <% }else{%>
+             <a id='home' class="nav-link" href="/">Home</a>
+            <a id='list' class="nav-link" href="/userdetails">Users Details</a>
+            <a id='list' class="nav-link" href="/product">Product Details</a>
+            <a id='list' class="nav-link" href="/productdetails">products</a>
+            <a id='list' class="nav-link" href="/demo">demo</a>
+            <a id='list' class="nav-link" href="/logout">Logout</a>
+        <% } %>
+        </nav>
+    </div>
+</header>

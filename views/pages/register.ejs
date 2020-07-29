@@ -1,0 +1,134 @@
+<%- include('../template/head')-%>
+<html>
+<link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+<body class="text-center">
+<div class="alert-danger", role="alert", id="error-group", style="display: none"></div>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <%- include('../template/nav')-%>
+     </br></br></br></br></br></br>
+       <div class="row" >
+
+            <div class="col-6">
+            
+            <div class="card1">
+           
+            <div class="card-body">
+             <h5 id="update"> </h5></br>
+            <h2 id="formname"> Registration</h2></br>  
+          
+            <form id="formadd1" class="mt-2" >
+
+              <input style="color:black;" type="hidden" name="editoraddid" id="editoraddid" >
+                
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                        <label for="pwd" class="label">Name</label>
+                                        <input type="text"  name="name" id="name" class="form-control"
+                                          placeholder="Please enter the name" >
+                                        
+                                </div>
+                            </div>
+                          
+                               <div class="col-sm-6">
+                                   <div class="form-group">
+                                        <label for="pwd">E-mail</label>
+                                        <input type="text"  name="email" id="email" class="form-control" placeholder="Please enter the email" >
+                                    
+                                    </div>
+                                </div>
+                            
+                               <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="pwd">Password</label>
+                                        <input type="password"  name="password" id="password" class="form-control" placeholder="Please enter the password">
+                                         
+                                    </div>
+                                </div>
+                            
+                           
+                                <div class="col-sm-6">
+                                    <div class="form-group ">
+                                        <label for="pwd">Phone Number</label>
+                                        <input type="text"  name="phone" id="phone" class="form-control" placeholder="Please enter the phone no" >
+                                       
+                                    </div>
+                                </div>
+
+                                </br></br></br>
+                                
+                            </div> </br>
+                           
+                            <div class="box-footer">
+                               <div class="pull-right paddA10">
+                              
+                                    <input type="submit" class="btn btn-danger btn-block"  id="save" value="save" />
+
+                                 
+                                </div>
+                           </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> </br></br>
+            
+    </body>
+</html>
+
+<script type="text/javascript" src="
+http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready( function () {
+
+
+ $("form[id='formadd1']").validate({         
+        rules: {
+          name: "required",          
+          email: "required", 
+          password: "required",
+          phone:"required", 
+          image:"required",
+        },
+        messages: {
+          name: "Please enter the name",                   
+          email: "Please select the email",
+          passwod: "Please enter the password",
+          phone: "Please enter the phone no",    
+           image:"Please select the image",
+        },
+        submitHandler: function(form) {
+
+        var id = $('#editoraddid').val();
+        const mydata={
+            name : $("#name").val(), 
+            email: $("#email").val(), 
+            password : $("#password").val(), 
+            phone: $("#phone").val()
+            };
+        
+            $.ajax({ 
+           type: 'POST',
+           dataType: 'json',
+           url: 'http://localhost:3000/register',
+           data:JSON.stringify(mydata),
+           contentType: "application/json", 
+           success: function(res){
+              console.log(res);
+           $('#update').html('Register Successfully');
+           window.location.href="/login";
+              
+           }
+           , error: function(err){
+                console.log(err);
+           }
+        });
+          return false;
+        }
+    });
+  
+});  
+</script>

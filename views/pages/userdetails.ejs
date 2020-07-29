@@ -1,0 +1,234 @@
+<%- include('../template/head')-%>
+<html>
+<link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+<body class="text-center">
+<div class="alert-danger", role="alert", id="error-group", style="display: none"></div>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <%- include('../template/nav')-%>
+      </br></br></br>
+      <h5 id="update1" style="color: red;"> </h5></br>
+      <div class="row add-form" >
+          <div class="col-6">
+            <div class="card1">
+              <div class="card-body">
+           
+            <h5 id="update"> </h5></br>
+            <h2 id="formname"> Add user details</h2></br>  
+          
+            <form id="formadd1" class="mt-2" >
+
+              <input style="color:black;" type="hidden" name="editoraddid" id="editoraddid" >
+                
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                        <label for="pwd" class="label">Name</label>
+                                        <input type="text"  name="name" id="name" class="form-control"
+                                          placeholder="Please enter the name" >
+                                        
+                                </div>
+                            </div>
+                          
+                               <div class="col-sm-6">
+                                   <div class="form-group">
+                                        <label for="pwd">E-mail</label>
+                                        <input type="text"  name="email" id="email" class="form-control" placeholder="Please enter the email" >
+                                    
+                                    </div>
+                                </div>
+                            
+                               <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="pwd">Password</label>
+                                        <input type="password"  name="password" id="password" class="form-control" placeholder="Please enter the password">
+                                         
+                                    </div>
+                                </div>
+                            
+                           
+                                <div class="col-sm-6">
+                                    <div class="form-group ">
+                                        <label for="pwd">Phone Number</label>
+                                        <input type="text"  name="phone" id="phone" class="form-control" placeholder="Please enter the phone no" >
+                                       
+                                    </div>
+                                </div>
+
+                                </br></br></br>
+                                
+                            </div> </br>
+                           
+                            <div class="box-footer">
+                               <div class="pull-right paddA10">
+                              
+                                    <input type="submit" class="btn btn-danger btn-block"  id="save" value="save" />
+
+                                 
+                                </div>
+                           </div>
+                </form>
+              </div> 
+            </div>
+          </div>
+        </div></br></br>    
+        <div class="row" >
+        <div class="col-6">
+         <div class="box-footer">
+            <div class="pull-right paddA10">
+              <input type="submit" class="btn btn-info pull-right"  id="add" value="Add" />
+           </div>
+         </div>
+        </div>
+      </div>
+            <table class="table table-striped table-hover table-bordered"  id="myTable" cellpadding="0" cellspacing="0" border="0"      >
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Phone No</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <% 
+                  result.forEach(function(result,i){ %>
+                    <tr>
+                        <td><%- result.name %></td>
+                        <td><%- result.email %></td> 
+                        <td><%- result.password %></td>  
+                        <td><%- result.phone %></td>
+                        <td>
+                    <a href='javascript:void(0);' class="editlink" data-id="<%= result._id %>" data-key="<%= i %>">Edit</a> &nbsp;
+                    <a href='javascript:void(0);' id="delete" data-id="<%= result._id %>" data-key="<%= i %>">Delete</a>                            
+                    </td>
+                    </tr>
+                    <% } ) %>
+                </tbody>
+            </table>  
+            </div> </br></br>
+
+    </body>
+</html>
+
+<script type="text/javascript" src="
+http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready( function () {
+  $('.add-form').hide();
+  $('#add').show();
+   $('#add').click(function(){
+   $('.add-form').show();
+   });
+  $('.editlink').click(function(){
+   $('.add-form').show();
+  });
+ $("form[id='formadd1']").validate({         
+        rules: {
+          name: "required",          
+          email: "required", 
+          password: "required",
+          phone:"required", 
+          image:"required",
+        },
+        messages: {
+          name: "Please enter the name",                   
+          email: "Please select the email",
+          password: "Please enter the password",
+          phone: "Please enter the phone no",    
+           image:"Please select the image",
+        },
+        submitHandler: function(form) {
+
+
+        var id = $('#editoraddid').val();
+       
+        const mydata={
+            name : $("#name").val(), 
+            email: $("#email").val(), 
+            password : $("#password").val(), 
+            phone: $("#phone").val()
+            };
+        if(id==''){
+      
+            $.ajax({ 
+           type: 'POST',
+           dataType: 'json',
+           url: 'http://localhost:3000/userdetails',
+           data:JSON.stringify(mydata),
+           contentType: "application/json", 
+           success: function(res){
+              console.log(res);
+           $('#update').html('User Details Added Successfully');
+             
+           }
+           , error: function(err){
+                console.log(err);
+           }
+        });
+        
+}else{
+        $.ajax({
+            type: "POST",
+            url: '/userdetails/edit/' + id,
+            dataType: 'json',
+            data: mydata ,
+            success: function( res ) {
+            $('#update').html('User Details Updated Successfully');
+            console.log(res);
+          }
+          });
+        }
+          return false;
+
+        }
+    });
+$('#delete').click(function()
+    {        
+            var id = $(this).attr('data-id');
+              
+            $.ajax(
+            {
+                   url: '/userdetails/'+ id,
+                   method:'GET',
+                   dataType:'json',
+                   success: function(res)
+                   {
+                    $('#update1').html('Record Deleted Successfully');
+                    
+                   },
+                   error:function(err){
+                   console.log(err);
+                   }
+             });
+        
+    });
+var result = <%- JSON.stringify(result); %>
+    console.log('result : ',result);
+
+        $('#addform').on('click', function(){
+          $('#editoraddid').val('');
+          $('#formname').html(' Add user details');
+        });
+
+  
+
+    $('#myTable').DataTable();
+
+    
+        $('.editlink').on('click', function(){
+          var key = $(this).attr('data-key');
+          $('#editoraddid').val(result[key]._id);
+          $('#name').val(result[key].name);
+          $('#email').val(result[key].email);
+          $('#password').val(result[key].password);
+          $('#phone').val(result[key].phone);
+          $('#formname').html('Update user details');
+        });
+
+       
+  
+});  
+</script>

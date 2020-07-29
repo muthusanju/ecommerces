@@ -1,0 +1,91 @@
+<%- include('../template/head')-%>
+<html>
+<body class="text-center">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+        <%- include('../template/nav')-%>
+           
+            <div class="row">
+                <div class="col-4">
+                    <div class="card1">
+                        <div class="card-body">
+                        <h3>Login</h3></br>
+                            <div class="col-lg-12 ">
+                               <form id="login" action="" method="post" class="ptt10" enctype="multipart/form-data">
+                            <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                        <label for="pwd" class="text-left">Email</label>
+                                        <input type="text"  name="email" id="email" class="form-control" >
+                                        <label id="username-error" style="color:red" class="error" for="username"></label>
+                                </div>
+                            </div></div>
+                            <div class="row">
+                               <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="pwd">Password</label>
+                                        <input type="password"  name="password" id="password" class="form-control" >
+                                    </div>
+                                </div>
+                            </div>                           
+                                
+                            <div class="box-footer">
+                               <div class="pull-right paddA10">
+                               <a class="sign" href="/register"><p>New user?sign up</p></a>
+                                   <input type="submit" class="btn btn-info full-right" value="Sing in" />
+                                </div>
+                           </div>
+                     </form>
+                </div>
+                </div>
+                </div>
+            <div > 
+    </div>
+</body>
+</html>
+
+<script type="text/javascript" src="
+http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+
+<script>
+$(document).ready( function () {
+
+
+ $("form[id='login']").validate({         
+        rules: {
+                    
+          email: "required", 
+          password: "required",
+         
+        },
+        messages: {
+                            
+          email: "Please enter the email",
+          password: "Please enter the password"
+         
+        },
+        submitHandler: function(form) {
+          const mydata={
+            email: $("#email").val(), 
+            password : $("#password").val() 
+            };
+      $.ajax({ 
+           type: 'POST',
+           dataType: 'json',
+           url: 'http://localhost:3000/login',
+           data:JSON.stringify(mydata),
+           contentType: "application/json", 
+           success: function(res){
+              window.location.href="/";    
+           }
+           , error: function(err){
+              window.location.href="/login";  
+           }
+        });
+         }
+    });
+
+
+});  
+</script>

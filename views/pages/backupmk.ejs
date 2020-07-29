@@ -1,0 +1,73 @@
+<%- include('../template/head')-%>
+<html>
+<link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+    <body class="text-center">
+    <div class="alert-danger", role="alert", id="error-group", style="display: none"></div>
+       <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <%- include('../template/nav')-%>
+           <div class="row" >
+                <div class="col-6">
+                    <div class="card1">
+                      
+                        <div class="card-body">
+                        <h5 id="update"> </h5></br>
+                         <!-- Photos upload Form -->
+                        
+                <br/>
+                
+                        </div>
+                    </div>    
+                </div>
+            </div>
+        </div> 
+        <% if(result!=''){ %>
+            <div class="container">
+               <div class="row">
+                <% if(result.length>0){ %>
+                <% result.forEach(function(result){ %>
+                <div class="col-md-4">
+                <img src="./uploads/<%- result.image %>" alt="image" style="width: 80%;margin:5px auto"></div>
+           <% }) %>
+        <% } %>
+            </div>
+      </div>
+<% }%>
+    </body>
+</html>
+
+<script type="text/javascript" src="
+http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+<script lang="javascript">
+   
+    $(document).ready(function(){
+            
+$("#submit").click((event) => {
+        //stop submit the form, we will post it manually.
+        event.preventDefault();
+        
+    var formData = new FormData();
+    formData.append('image',$('#image')[0].files[0]);
+    formData.append('amount',$('#amount').val());
+    formData.append('discount',$('#discount').val());
+    formData.append('productname',$('#productname').val());
+
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: "/product",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: (data) => {
+           $('#update').html('Image uploaded Successfully');
+        },
+        error: (e) => {
+            $("#confirmMsg").text(e.responseText);
+        }
+    });
+              
+ });
+});
+</script>

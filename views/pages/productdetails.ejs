@@ -1,0 +1,31 @@
+<%- include('../template/head')-%>
+<html>
+<link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+<body class="text-center">
+<div class="alert-danger", role="alert", id="error-group", style="display: none"></div>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+ <%- include('../template/nav')-%></br></br></br></br>
+ <% if(result!=''){ %>
+            <div class="container">
+               <div class="row">
+                <% if(result.length>0){ %>
+                <% result.forEach(function(result){ %>
+                <a href="/cart"><div class="col-md-4">
+                <img src="./uploads/<%- result.image %>" alt="image" style="width: 50%;margin:10px auto">
+                
+                <label for="pwd" >Discount:<p style="color: red;"><%- result.discount %>%</p></label></br></br>
+                <label style="color: black;"><p ><a href="/cart" style="color: #11de40!important;"><%- result.productname %></a></p>₹<%- result.amount %><label></a>
+                
+                
+                </div>
+
+           <% }) %>
+
+        <% } %>
+         </div>
+           </div>
+        <%}%>
+     </div> 
+
+    </body>
+</html>
